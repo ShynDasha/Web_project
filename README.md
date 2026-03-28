@@ -67,6 +67,30 @@ chmod +x scripts/start-full-https.sh scripts/stop-full-https.sh
 ./scripts/start-full-https.sh
 ```
 
+### Windows
+
+Для Windows додані окремі PowerShell-скрипти.
+
+Запуск:
+
+```powershell
+cd C:\Users\YOUR_USERNAME\Downloads\Web_project
+powershell -ExecutionPolicy Bypass -File .\scripts\start-full-https.ps1
+```
+
+Зупинка:
+
+```powershell
+cd C:\Users\YOUR_USERNAME\Downloads\Web_project
+powershell -ExecutionPolicy Bypass -File .\scripts\stop-full-https.ps1
+```
+
+Після запуску відкрий:
+
+```text
+https://localhost:3443
+```
+
 ### Що робить автоматичний запуск
 
 Скрипт:
