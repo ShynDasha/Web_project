@@ -1,0 +1,68 @@
+services:
+  frontend:
+    image: node:20-alpine
+    working_dir: /app/frontend
+    command: ["node", "server.js"]
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+
+  api-gateway:
+    image: node:20-alpine
+    working_dir: /app/api-gateway
+    command: ["node", "server.js"]
+    volumes:
+      - .:/app
+    environment:
+      AUTH_SERVICE_URL: http://auth-service:4001
+      PRODUCT_SERVICE_URL: http://product-service:4002
+      ORDER_SERVICE_URL: http://order-service:4003
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+      - product-service
+      - order-service
+
+  auth-service:
+    image: node:20-alpine
+    working_dir: /app/services/auth-service
+    command: ["node", "server.js"]
+    volumes:
+      - .:/app
+    ports:
+      - "4001:4001"
+
+  product-service:
+    image: node:20-alpine
+    working_dir: /app/services/product-service
+    command: ["node", "server.js"]
+    volumes:
+      - .:/app
+    ports:
+      - "4002:4002"
+
+  order-service:
+    image: node:20-alpine
+    working_dir: /app/services/order-service
+    command: ["node", "server.js"]
+    volumes:
+      - .:/app
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:4002
+      NOTIFICATION_SERVICE_URL: http://notification-service:4004
+    ports:
+      - "4003:4003"
+    depends_on:
+      - product-service
+      - notification-service
+
+  notification-service:
+    image: node:20-alpine
+    working_dir: /app/services/notification-service
+    command: ["node", "server.js"]
+    volumes:
+      - .:/app
+    ports:
+      - "4004:4004"

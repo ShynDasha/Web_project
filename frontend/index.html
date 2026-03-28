@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MicroStore Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Microservices Demo</p>
+          <h1>Інтернет-магазин на основі мікросервісної архітектури</h1>
+          <p class="hero-copy">
+            Демонстраційний застосунок з окремими сервісами автентифікації,
+            каталогу товарів, замовлень і сповіщень.
+          </p>
+        </div>
+        <div class="hero-card">
+          <span>Архітектура</span>
+          <strong>Frontend -> API Gateway -> Services</strong>
+          <p>Auth, Products, Orders, Notifications</p>
+        </div>
+      </header>
+
+      <main class="grid">
+        <section class="panel">
+          <h2>1. Вхід або реєстрація</h2>
+          <form id="auth-form" class="stack">
+            <input id="name" name="name" placeholder="Ім'я" required />
+            <input id="email" name="email" type="email" placeholder="Email" required />
+            <button type="submit">Увійти / Зареєструватися</button>
+          </form>
+          <p id="auth-status" class="status">Користувач ще не авторизований.</p>
+        </section>
+
+        <section class="panel">
+          <h2>2. Каталог товарів</h2>
+          <div id="products" class="products"></div>
+        </section>
+
+        <section class="panel">
+          <h2>3. Кошик і замовлення</h2>
+          <div id="cart" class="stack small-gap"></div>
+          <div class="order-summary">
+            <p id="total">Загальна сума: 0 грн</p>
+            <button id="order-button">Оформити замовлення</button>
+          </div>
+          <p id="order-status" class="status">Замовлень ще немає.</p>
+        </section>
+
+        <section class="panel">
+          <h2>4. Останні замовлення</h2>
+          <div id="orders" class="stack small-gap"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
