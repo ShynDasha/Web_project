@@ -20,6 +20,13 @@ openssl version
 
 ```bash
 cd /Users/dashasin/Downloads/Web_project
+npm run start
+```
+
+або напряму:
+
+```bash
+cd /Users/dashasin/Downloads/Web_project
 ./scripts/start-full-https.sh
 ```
 
@@ -32,6 +39,13 @@ https://localhost:3443
 Браузер може показати попередження про `self-signed certificate`. Для локальної демонстрації це нормально: потрібно підтвердити виняток і перейти на сторінку.
 
 ### Як зупинити застосунок
+
+```bash
+cd /Users/dashasin/Downloads/Web_project
+npm run stop
+```
+
+або:
 
 ```bash
 cd /Users/dashasin/Downloads/Web_project

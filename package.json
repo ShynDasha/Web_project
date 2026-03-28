@@ -1,0 +1,19 @@
+{
+  "name": "microstore-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Demonstration web application of an online store built with a microservice architecture.",
+  "scripts": {
+    "start": "./scripts/start-full-https.sh",
+    "stop": "./scripts/stop-full-https.sh",
+    "start:frontend": "cd frontend && ENABLE_HTTPS=true PORT=3443 API_GATEWAY_HTTPS_URL=https://localhost:4450 node server.js",
+    "start:gateway": "cd api-gateway && NODE_TLS_REJECT_UNAUTHORIZED=0 ENABLE_HTTPS=true PORT=4450 AUTH_SERVICE_URL=https://localhost:4101 PRODUCT_SERVICE_URL=https://localhost:4102 ORDER_SERVICE_URL=https://localhost:4103 node server.js",
+    "start:auth": "cd services/auth-service && ENABLE_HTTPS=true PORT=4101 node server.js",
+    "start:products": "cd services/product-service && ENABLE_HTTPS=true PORT=4102 node server.js",
+    "start:orders": "cd services/order-service && NODE_TLS_REJECT_UNAUTHORIZED=0 ENABLE_HTTPS=true PORT=4103 PRODUCT_SERVICE_URL=https://localhost:4102 NOTIFICATION_SERVICE_URL=https://localhost:4104 node server.js",
+    "start:notifications": "cd services/notification-service && ENABLE_HTTPS=true PORT=4104 node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
