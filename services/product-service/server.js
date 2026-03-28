@@ -1,6 +1,12 @@
+const fs = require("fs");
 const http = require("http");
+const https = require("https");
+const path = require("path");
 
 const PORT = process.env.PORT || 4002;
+const ENABLE_HTTPS = process.env.ENABLE_HTTPS === "true";
+const SSL_KEY_PATH = process.env.SSL_KEY_PATH || path.join(__dirname, "../../certs/localhost-key.pem");
+const SSL_CERT_PATH = process.env.SSL_CERT_PATH || path.join(__dirname, "../../certs/localhost.pem");
 const products = [
   {
     id: "p-100",
@@ -29,7 +35,7 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
-const server = http.createServer((req, res) => {
+function requestHandler(req, res) {
   if (req.method === "GET" && req.url === "/health") {
     sendJson(res, 200, { service: "product-service", status: "ok" });
     return;
@@ -41,8 +47,19 @@ const server = http.createServer((req, res) => {
   }
 
   sendJson(res, 404, { error: "Route not found" });
-});
+}
+
+const server = ENABLE_HTTPS
+  ? https.createServer(
+      {
+        key: fs.readFileSync(SSL_KEY_PATH),
+        cert: fs.readFileSync(SSL_CERT_PATH),
+      },
+      requestHandler
+    )
+  : http.createServer(requestHandler);
 
 server.listen(PORT, () => {
-  console.log(`product-service listening on http://localhost:${PORT}`);
+  const protocol = ENABLE_HTTPS ? "https" : "http";
+  console.log(`product-service listening on ${protocol}://localhost:${PORT}`);
 });

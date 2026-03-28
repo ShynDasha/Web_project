@@ -1,4 +1,9 @@
-const API_BASE = "http://localhost:4000/api";
+const appConfig = window.__APP_CONFIG__ || {};
+const gatewayBaseUrl =
+  window.location.protocol === "https:"
+    ? appConfig.apiGatewayHttpsUrl || "https://localhost:4443"
+    : appConfig.apiGatewayHttpUrl || "http://localhost:4000";
+const API_BASE = `${gatewayBaseUrl}/api`;
 
 const state = {
   token: "",
