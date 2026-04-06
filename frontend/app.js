@@ -19,6 +19,7 @@ const productsContainer = document.getElementById("products");
 const cartContainer = document.getElementById("cart");
 const totalElement = document.getElementById("total");
 const orderButton = document.getElementById("order-button");
+const clearCartButton = document.getElementById("clear-cart-button");
 const orderStatus = document.getElementById("order-status");
 const ordersContainer = document.getElementById("orders");
 
@@ -56,6 +57,7 @@ function renderProducts() {
 
 function renderCart() {
   cartContainer.innerHTML = "";
+  clearCartButton.disabled = state.cart.length === 0;
 
   if (state.cart.length === 0) {
     cartContainer.innerHTML = "<p class='status'>Кошик порожній.</p>";
@@ -65,9 +67,28 @@ function renderCart() {
     const row = document.createElement("div");
     row.className = "cart-row";
     row.innerHTML = `
-      <strong>${item.name}</strong>
-      <span>${item.quantity} x ${currency(item.price)}</span>
+      <div class="cart-item-copy">
+        <strong>${item.name}</strong>
+        <div class="quantity-row">
+          <button class="secondary-button small-button quantity-button" data-action="decrease" data-id="${item.id}">-</button>
+          <span>${item.quantity} x ${currency(item.price)}</span>
+          <button class="secondary-button small-button quantity-button" data-action="increase" data-id="${item.id}">+</button>
+        </div>
+      </div>
+      <button class="secondary-button small-button remove-button" data-id="${item.id}">Видалити</button>
     `;
+    row.querySelectorAll(".quantity-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.dataset.action;
+        if (action === "increase") {
+          updateCartQuantity(item.id, 1);
+          return;
+        }
+
+        updateCartQuantity(item.id, -1);
+      });
+    });
+    row.querySelector(".remove-button").addEventListener("click", () => removeFromCart(item.id));
     cartContainer.appendChild(row);
   });
 
@@ -114,6 +135,27 @@ function addToCart(productId) {
   }
 
   renderCart();
+}
+
+function removeFromCart(productId) {
+  state.cart = state.cart.filter((item) => item.id !== productId);
+  renderCart();
+}
+
+function updateCartQuantity(productId, change) {
+  state.cart = state.cart
+    .map((item) =>
+      item.id === productId ? { ...item, quantity: item.quantity + change } : item
+    )
+    .filter((item) => item.quantity > 0);
+
+  renderCart();
+}
+
+function clearCart() {
+  state.cart = [];
+  renderCart();
+  setStatus(orderStatus, "Кошик очищено.", true);
 }
 
 async function request(path, options = {}) {
@@ -209,6 +251,10 @@ orderButton.addEventListener("click", async () => {
   } catch (error) {
     setStatus(orderStatus, error.message);
   }
+});
+
+clearCartButton.addEventListener("click", () => {
+  clearCart();
 });
 
 renderCart();

@@ -31,10 +31,7 @@ body {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 20px;
-  align-items: stretch;
+  display: block;
   margin-bottom: 24px;
 }
 
@@ -45,7 +42,6 @@ body {
 }
 
 .hero-copy,
-.hero-card p,
 .status,
 .product-card p,
 .order-card p,
@@ -53,15 +49,13 @@ body {
   color: var(--muted);
 }
 
-.eyebrow,
-.hero-card span {
+.eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.14em;
   font-size: 0.78rem;
   color: var(--accent-dark);
 }
 
-.hero-card,
 .panel,
 .product-card,
 .order-card,
@@ -73,7 +67,6 @@ body {
   backdrop-filter: blur(8px);
 }
 
-.hero-card,
 .panel {
   padding: 22px;
 }
@@ -126,15 +119,71 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.secondary-button {
+  background: linear-gradient(135deg, #efe2cf 0%, #dbc3a8 100%);
+  color: var(--text);
+}
+
+.small-button {
+  padding: 10px 14px;
+  white-space: nowrap;
+}
+
 .products {
   display: grid;
   gap: 14px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.products::-webkit-scrollbar {
+  width: 10px;
+}
+
+.products::-webkit-scrollbar-track {
+  background: rgba(214, 193, 168, 0.35);
+  border-radius: 999px;
+}
+
+.products::-webkit-scrollbar-thumb {
+  background: rgba(176, 82, 44, 0.75);
+  border-radius: 999px;
+}
+
+.products::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 51, 24, 0.85);
 }
 
 .product-card,
 .order-card,
 .cart-row {
   padding: 16px;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-item-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.quantity-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quantity-button {
+  min-width: 42px;
+  padding-inline: 0;
+  font-size: 1.05rem;
 }
 
 .product-card strong,
@@ -159,6 +208,12 @@ button:disabled {
   margin-top: 18px;
 }
 
+.action-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .status {
   min-height: 24px;
 }
@@ -174,6 +229,11 @@ button:disabled {
   }
 
   .order-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .action-row {
     flex-direction: column;
     align-items: stretch;
   }
